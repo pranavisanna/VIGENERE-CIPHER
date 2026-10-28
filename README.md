@@ -30,7 +30,51 @@ STEP-8: Repeat the above steps to generate the entire cipher text.
 
 
 ## PROGRAM
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
+void vigenereCipher(char *text, char *key, int decrypt) {
+    int len = strlen(text), keyLen = strlen(key);
+
+    for (int i = 0, j = 0; i < len; i++) {
+
+        if (!isalpha(text[i]))   // ignore non-letters
+            continue;
+
+        char offset = isupper(text[i]) ? 'A' : 'a';
+        char keyOffset = isupper(key[j % keyLen]) ? 'A' : 'a';
+
+        int shift = (key[j % keyLen] - keyOffset) % 26;
+
+        if (decrypt)
+            shift = (26 - shift) % 26;
+
+        text[i] = offset + ((text[i] - offset + shift) % 26);
+
+        j++; 
+    }
+}
+
+int main() {
+    char text[] = "PRANAVI";
+    char key[] = "KEY";
+
+    for (int i = 0; text[i]; i++) text[i] = toupper(text[i]);
+    for (int i = 0; key[i]; i++) key[i] = toupper(key[i]);
+
+    vigenereCipher(text, key, 0);
+    printf("Encrypted Message: %s\n", text);
+
+    vigenereCipher(text, key, 1);
+    printf("Decrypted Message: %s\n", text);
+
+    return 0;
+}
+```
 ## OUTPUT
+<img width="331" height="80" alt="image" src="https://github.com/user-attachments/assets/a056e9fa-22b0-4219-bde2-e9052efe7a91" />
 
 ## RESULT
+Thus, the program is executed successfully
